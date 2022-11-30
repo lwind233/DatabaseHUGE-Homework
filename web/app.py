@@ -16,7 +16,7 @@ db = SQLAlchemy(app)
 username = ''
 content = ''
 d1 = datetime.date.today()
-time = d1.year*10000+d1.month*100+d1.day
+ctime = d1.year*10000+d1.month*100+d1.day
 @app.route('/')
 def welcome():
     s = 'ER图如下：'
@@ -112,7 +112,7 @@ def insert():
     diseaseList = DiseaseList(name=name,ifImg=ifImg,ifText=ifText,lastEditTime=lastEditTime,hid=hid)
     db.session.add(diseaseList)
     db.session.commit()
-    editRecord = EditRecord(content='add in disease_list',editor=username,time=time)
+    editRecord = EditRecord(content='add in disease_list',editor=username,time=ctime)
     db.session.add(editRecord)
     db.session.commit()
     #添加完成重定向至主页
@@ -132,7 +132,7 @@ def delete():
     diseaseList = DiseaseList.query.filter_by(id=id).first()
     db.session.delete(diseaseList)
     db.session.commit()
-    editRecord = EditRecord(content='delete in disease_list',editor=username,time=time)
+    editRecord = EditRecord(content='delete in disease_list',editor=username,time=ctime)
     db.session.add(editRecord)
     db.session.commit()
     return redirect('/select_disease_list')
@@ -167,7 +167,7 @@ def alter():
         diseaseList.lastEditTime = lastEditTime
         diseaseList.hid = hid
         db.session.commit()
-        editRecord = EditRecord(content='edit in disease_list',editor=username,time=time)
+        editRecord = EditRecord(content='edit in disease_list',editor=username,time=ctime)
         db.session.add(editRecord)
         db.session.commit()
         return redirect('/select_disease_list')
@@ -200,7 +200,7 @@ def insert_image():
     db.session.add(image)
     db.session.commit()
     #添加完成重定向至主页
-    editRecord = EditRecord(content='add in image',editor=username,time=time)
+    editRecord = EditRecord(content='add in image',editor=username,time=ctime)
     db.session.add(editRecord)
     db.session.commit()
     return redirect('/select_image')
@@ -219,7 +219,7 @@ def delete_image():
     image = Image.query.filter_by(id=id).first()
     db.session.delete(image)
     db.session.commit()
-    editRecord = EditRecord(content='delete in image',editor=username,time=time)
+    editRecord = EditRecord(content='delete in image',editor=username,time=ctime)
     db.session.add(editRecord)
     db.session.commit()
     return redirect('/select_image')
@@ -245,7 +245,7 @@ def alter_image():
         image.name = name
         image.img = ls_f
         db.session.commit()
-        editRecord = EditRecord(content='edit in image',editor=username,time=time)
+        editRecord = EditRecord(content='edit in image',editor=username,time=ctime)
         db.session.add(editRecord)
         db.session.commit()
         return redirect('/select_image')
@@ -274,7 +274,7 @@ def insert_disease_suffered():
     diseaseSuffered = DiseaseSuffered(hid=hid,diseaseGet=diseaseGet,time=time)
     db.session.add(diseaseSuffered)
     db.session.commit()
-    editRecord = EditRecord(content='add in Disease_suffered',editor=username,time=time)
+    editRecord = EditRecord(content='add in Disease_suffered',editor=username,time=ctime)
     db.session.add(editRecord)
     db.session.commit()
     #添加完成重定向至主页
@@ -294,7 +294,7 @@ def delete_disease_suffered():
     diseaseSuffered = DiseaseSuffered.query.filter_by(id=id).first()
     db.session.delete(diseaseSuffered)
     db.session.commit()
-    editRecord = EditRecord(content='delete in Disease_suffered',editor=username,time=time)
+    editRecord = EditRecord(content='delete in Disease_suffered',editor=username,time=ctime)
     db.session.add(editRecord)
     db.session.commit()
     return redirect('/select_disease_suffered')
@@ -323,7 +323,7 @@ def alter_disease_suffered():
         diseaseSuffered.diseaseGet = diseaseGet
         diseaseSuffered.time = time
         db.session.commit()
-        editRecord = EditRecord(content='edit in Disease_suffered',editor=username,time=time)
+        editRecord = EditRecord(content='edit in Disease_suffered',editor=username,time=ctime)
         db.session.add(editRecord)
         db.session.commit()
         return redirect('/select_disease_suffered')
@@ -352,7 +352,7 @@ def insert_edit_record():
     content = request.form['content']
     editor = request.form['editor']
     time = request.form['time']
-    editRecord = EditRecord(content=content,editor=editor,time=time)
+    editRecord = EditRecord(content=content,editor=editor,time=ctime)
     db.session.add(editRecord)
     db.session.commit()
     #添加完成重定向至主页
@@ -385,7 +385,7 @@ def alter_edit_record():
         content = request.args.get("content")
         editor= request.args.get("editor")
         time = request.args.get("time")
-        editRecord = EditRecord(id=id,content=content,editor=editor,time=time)
+        editRecord = EditRecord(id=id,content=content,editor=editor,time=ctime)
         return render_template("edit_record_alter.html",editRecord = editRecord)
     else:
         #接收参数，修改数据
@@ -428,7 +428,7 @@ def insert_people():
     ppeople = People(hid=hid,address=address,age=age,work=work)
     db.session.add(ppeople)
     db.session.commit()
-    editRecord = EditRecord(content='add in People',editor=username,time=time)
+    editRecord = EditRecord(content='add in People',editor=username,time=ctime)
     db.session.add(editRecord)
     db.session.commit()
     #添加完成重定向至主页
@@ -448,7 +448,7 @@ def delete_people():
     ppeople = People.query.filter_by(id=id).first()
     db.session.delete(ppeople)
     db.session.commit()
-    editRecord = EditRecord(content='delete in People',editor=username,time=time)
+    editRecord = EditRecord(content='delete in People',editor=username,time=ctime)
     db.session.add(editRecord)
     db.session.commit()
     return redirect('/select_people')
@@ -483,7 +483,7 @@ def alter_people():
         # ppeople.disease_history = disease_history
         ppeople.work = work
         db.session.commit()
-        editRecord = EditRecord(content='edit in People',editor=username,time=time)
+        editRecord = EditRecord(content='edit in People',editor=username,time=ctime)
         db.session.add(editRecord)
         db.session.commit()
         return redirect('/select_people')
@@ -509,7 +509,7 @@ def insert_data():
     pdata = Data(name=name,ddata=ddata)
     db.session.add(pdata)
     db.session.commit()
-    editRecord = EditRecord(content='add in data',editor=username,time=time)
+    editRecord = EditRecord(content='add in data',editor=username,time=ctime)
     db.session.add(editRecord)
     db.session.commit()
     #添加完成重定向至主页
@@ -529,7 +529,7 @@ def delete_data():
     pdata = Data.query.filter_by(id=id).first()
     db.session.delete(pdata)
     db.session.commit()
-    editRecord = EditRecord(content='delete in data',editor=username,time=time)
+    editRecord = EditRecord(content='delete in data',editor=username,time=ctime)
     db.session.add(editRecord)
     db.session.commit()
     return redirect('/select_data')
@@ -555,7 +555,7 @@ def alter_data():
         pdata.name = name
         pdata.ddata = ddata
         db.session.commit()
-        editRecord = EditRecord(content='edit in People',editor=username,time=time)
+        editRecord = EditRecord(content='edit in People',editor=username,time=ctime)
         db.session.add(editRecord)
         db.session.commit()
         return redirect('/select_data')
@@ -581,7 +581,7 @@ def insert_user():
     user = User(name=name,content=content,passwd=md5_passwd)
     db.session.add(user)
     db.session.commit()
-    editRecord = EditRecord(content='add in User',editor=username,time=time)
+    editRecord = EditRecord(content='add in User',editor=username,time=ctime)
     db.session.add(editRecord)
     db.session.commit()
     #添加完成重定向至主页
@@ -601,7 +601,7 @@ def delete_user():
     user = User.query.filter_by(id=id).first()
     db.session.delete(user)
     db.session.commit()
-    editRecord = EditRecord(content='delete in user',editor=username,time=time)
+    editRecord = EditRecord(content='delete in user',editor=username,time=ctime)
     db.session.add(editRecord)
     db.session.commit()
     return redirect('/select_user')
@@ -630,7 +630,7 @@ def alter_user():
         user.content=content
         user.passwd = passwd
         db.session.commit()
-        editRecord = EditRecord(content='edit in user',editor=username,time=time)
+        editRecord = EditRecord(content='edit in user',editor=username,time=ctime)
         db.session.add(editRecord)
         db.session.commit()
         return redirect('/select_user')
