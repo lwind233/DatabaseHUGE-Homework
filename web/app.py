@@ -22,7 +22,7 @@ def welcome():
     s = 'ER图如下：'
     return render_template('welcome.html',a = s)
 
-#定义模型(为了看得方便，我把它搬上来这里了
+#定义模型
 class User(db.Model):
     #表模型
     id = db.Column(db.Integer,primary_key=True,autoincrement=True)
@@ -34,7 +34,7 @@ class User(db.Model):
 def dex():
     return render_template('login.html',msg = '请登录')
 
-@app.route('/login',methods=['post'])
+@app.route('/login', methods=['post'])
 def login():
     global username
     global content
@@ -43,11 +43,11 @@ def login():
     md5_passwd = hashlib.md5(password.encode("utf-8")).hexdigest()
     pw = db.session.query(User.passwd).filter(User.name == username).all()
 
-    if md5_passwd == pw[0][0] :
+    if md5_passwd == hashlib.md5(pw[0][0].encode("utf-8")).hexdigest():
         content = User.query.filter_by(name=username).first().content
-        return render_template('login_success.html',content = content)
+        return render_template('login_success.html', content=content)
     else:
-        return render_template('login.html',msg = '用户名或密码错误！')
+        return render_template('login.html', msg= '用户名或密码错误！')
 
 @app.route('/choose_function')
 def choose_function():
